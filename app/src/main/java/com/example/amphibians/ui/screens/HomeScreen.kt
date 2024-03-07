@@ -28,13 +28,13 @@ import com.example.amphibians.R
 import com.example.amphibians.model.AmphibianInfo
 import com.example.amphibians.ui.theme.AmphibiansTheme
 
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AmphibianApp(
-    amphibiansViewModel: AmphibiansViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
+    val amphibiansViewModel: AmphibiansViewModel = viewModel()
     Scaffold(
         topBar = {
             TopAppBar(title = {
@@ -50,10 +50,12 @@ fun AmphibianApp(
             val result = amphibiansViewModel.amphibiansUiState
 
             when(result) {
-                is AmphibiansUiState.Loading -> Text(text = "Loading...")
-                is AmphibiansUiState.Error -> Text(text = "Error!")
-                is AmphibiansUiState.Success -> Text(text = result.info)
+                is AmphibiansUiState.Loading -> Text("Loading...")
+                is AmphibiansUiState.Error -> Text("Error!")
+                is AmphibiansUiState.Success -> AmphibiansList(result.amphibians)
             }
+
+            //Text(text = message)
 
             /*val mockData = listOf(
                 AmphibianInfo(
@@ -66,16 +68,15 @@ fun AmphibianApp(
                     type = "",
                     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae dolor quis massa vestibulum molestie quis sed sapien. Morbi risus magna, tempus ut ante at, ullamcorper cursus nibh. Morbi condimentum magna et mauris sollicitudin dictum. Mauris eu velit ut ante vulputate rutrum. Integer sagittis lectus quam, vitae accumsan velit aliquet eu. Vestibulum at ex vel elit ullamcorper sollicitudin sit amet at justo. Proin sit amet efficitur sem, at efficitur lectus. Vivamus interdum laoreet risus, ac auctor nunc hendrerit eu. Ut tincidunt libero eleifend, porttitor augue et, tempor neque. Donec est velit, commodo ac elit eget, faucibus mollis eros."
                 )
-            )
-            AmphibiansList(amphibians = mockData)*/
+            ) */
         }
     }
 }
 
 @Composable
 fun AmphibiansList(
+    amphibians: List<AmphibianInfo>,
     modifier: Modifier = Modifier,
-    amphibians: List<AmphibianInfo>
 ) {
     LazyColumn(modifier = modifier) {
         items(amphibians) {
@@ -106,7 +107,7 @@ fun AmphibianCard(
             )
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(amphibianInfo.type)
+                    .data(amphibianInfo.imgSrc)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(R.drawable.loading_img),
@@ -124,6 +125,7 @@ fun AmphibianCard(
     }
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun AmphibiansListPreview() {
@@ -159,3 +161,4 @@ fun AmphibianCardPreview() {
         AmphibianCard(amphibianInfo = mockData)
     }
 }
+*/
