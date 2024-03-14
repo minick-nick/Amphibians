@@ -18,8 +18,7 @@ import com.example.amphibians.ui.screens.HomeScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AmphibianApp(
-    modifier: Modifier = Modifier,
-    amphibiansViewModel: AmphibiansViewModel = viewModel()
+    modifier: Modifier = Modifier
 ) {
     Scaffold(
         topBar = {
@@ -35,6 +34,8 @@ fun AmphibianApp(
                 .fillMaxSize()
                 .padding(it)
         ) {
+            val amphibiansViewModel: AmphibiansViewModel =
+                viewModel(factory = AmphibiansViewModel.Factory)
             HomeScreen(amphibiansUiState = amphibiansViewModel.amphibiansUiState)
         }
     }
